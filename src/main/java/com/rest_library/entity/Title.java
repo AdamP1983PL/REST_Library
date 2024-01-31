@@ -28,7 +28,7 @@ public class Title {
     private int publicationYear;
 
     @OneToMany(mappedBy = "title",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<IndividualBook> individualBooks;
 
 }

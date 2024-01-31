@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 public class IndividualBookMapper {
 
-//    public IndividualBook mapToIndividualBook(IndividualBookDto individualBookDto) {
-//        return IndividualBook.builder()
-//                .id(individualBookDto.getId())
-//                .title(idToTitleEntityMapper.mapIdToTitle())
-//                .status(individualBookDto.getStatus())
-//                .build();
-//    }
+    public IndividualBook mapToIndividualBook(IndividualBookDto individualBookDto) {
+        return IndividualBook.builder()
+                .id(individualBookDto.getId())
+                .title(individualBookDto.getTitle())
+                .status(individualBookDto.getStatus())
+                .build();
+    }
 
     public IndividualBookDto mapToIndividualBookDto(IndividualBook individualBook) {
         return IndividualBookDto.builder()
                 .id(individualBook.getId())
-                .title_id(individualBook.getTitle().getId())
+                .title(individualBook.getTitle())
                 .status(individualBook.getStatus())
                 .build();
     }

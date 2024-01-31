@@ -21,9 +21,7 @@ public class IndividualBook {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_title")
     private Title title;
 
@@ -32,14 +30,7 @@ public class IndividualBook {
     private Status status;
 
     @ManyToMany(mappedBy = "individualBooks",
-            cascade = {
-                    CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private final List<BooksBorrowingStats> booksBorrowingStats = new ArrayList<>();
-
-//    @ManyToOne
-//    @JoinColumn(name = "fk_books_borrowing_stats")
-//    private BooksBorrowingStats booksBorrowingStats;
-
 
 }

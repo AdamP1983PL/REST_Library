@@ -1,5 +1,6 @@
 package com.rest_library.dto;
 
+import com.rest_library.entity.Title;
 import com.rest_library.enums.Status;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 public class IndividualBookDto {
 
     private Long id;
-    private Long title_id;
+    private Title title;
     private Status status;
 
 }

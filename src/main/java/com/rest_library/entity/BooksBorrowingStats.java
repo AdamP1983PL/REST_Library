@@ -22,16 +22,15 @@ public class BooksBorrowingStats {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    //    @OneToMany(mappedBy = "booksBorrowingStats")
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "borrowings_individual_books",
             joinColumns = {@JoinColumn(name = "fk_borrowing")},
             inverseJoinColumns = {@JoinColumn(name = "fk_individualBook")})
-    private final List<IndividualBook> individualBooks = new ArrayList<>();
+    private List<IndividualBook> individualBooks;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_reader")
-    private Reader reader;
+    private List<Reader> readersList;
 
     @CreatedDate
     @Column(name = "borrowing_date", nullable = false)

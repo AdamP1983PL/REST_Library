@@ -5,6 +5,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,8 +31,8 @@ public class Reader {
     @CreatedDate
     private LocalDate startingDate;
 
-    @OneToOne(mappedBy = "reader",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
-    private BooksBorrowingStats booksBorrowingStats;
+    @ManyToMany(mappedBy = "readersList",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<BooksBorrowingStats> booksBorrowingStatsList;
 
 }
