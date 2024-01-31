@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BooksBorrowingStatsDto {
 
-    private long id;
+    private Long id;
     private List<Long> individualBooksId = new ArrayList<>();
     private Long readerId;
     private LocalDate borrowingDate;

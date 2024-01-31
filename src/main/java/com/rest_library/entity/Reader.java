@@ -18,7 +18,7 @@ public class Reader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private long id;
+    private Long id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -30,8 +30,8 @@ public class Reader {
     @CreatedDate
     private LocalDate startingDate;
 
-    @OneToOne(mappedBy = "reader")
+    @OneToOne(mappedBy = "reader",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private BooksBorrowingStats booksBorrowingStats;
 
-    //    todo CascadeType
 }

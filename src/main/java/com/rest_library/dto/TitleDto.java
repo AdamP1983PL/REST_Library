@@ -1,21 +1,21 @@
 package com.rest_library.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.rest_library.entity.IndividualBook;
+import lombok.*;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TitleDto {
 
-    private long id;
+    private Long id;
     private String bookTitle;
     private String author;
-    private LocalDate publicationYear;
+    private int publicationYear;
+    private List<IndividualBook> individualBooks;
 
 }

@@ -1,9 +1,6 @@
 package com.rest_library.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -11,9 +8,10 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ReaderDto {
 
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private LocalDate startingDate;

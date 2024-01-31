@@ -19,9 +19,11 @@ public class IndividualBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private long id;
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {
+            CascadeType.PERSIST, CascadeType.MERGE,
+            CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_title")
     private Title title;
 
@@ -29,8 +31,15 @@ public class IndividualBook {
     @Column(name = "status", nullable = false)
     private Status status;
 
-    @ManyToMany(mappedBy = "individualBooks")
-    private List<BooksBorrowingStats> booksBorrowingStats = new ArrayList<>();
+    @ManyToMany(mappedBy = "individualBooks",
+            cascade = {
+                    CascadeType.PERSIST, CascadeType.MERGE,
+                    CascadeType.DETACH, CascadeType.REFRESH})
+    private final List<BooksBorrowingStats> booksBorrowingStats = new ArrayList<>();
 
-    //    todo CascadeType
+//    @ManyToOne
+//    @JoinColumn(name = "fk_books_borrowing_stats")
+//    private BooksBorrowingStats booksBorrowingStats;
+
+
 }

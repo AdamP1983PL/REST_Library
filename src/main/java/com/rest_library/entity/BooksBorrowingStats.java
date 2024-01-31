@@ -14,21 +14,22 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "book_borrowing")
+@Table(name = "book_borrowing_stats")
 public class BooksBorrowingStats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private long id;
+    private Long id;
 
-    @ManyToMany
-    @JoinTable(name = "borrowings_books",
+    //    @OneToMany(mappedBy = "booksBorrowingStats")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @JoinTable(name = "borrowings_individual_books",
             joinColumns = {@JoinColumn(name = "fk_borrowing")},
             inverseJoinColumns = {@JoinColumn(name = "fk_individualBook")})
-    private List<IndividualBook> individualBooks = new ArrayList<>();
+    private final List<IndividualBook> individualBooks = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     @JoinColumn(name = "fk_reader")
     private Reader reader;
 
@@ -39,5 +40,4 @@ public class BooksBorrowingStats {
     @Column(name = "return_date", nullable = false)
     private LocalDate returnDate;
 
-    //    todo CascadeType
 }

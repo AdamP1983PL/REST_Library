@@ -3,7 +3,6 @@ package com.rest_library.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -12,12 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="titles")
+@Table(name = "titles")
 public class Title {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "book_title", nullable = false)
     private String bookTitle;
@@ -26,10 +25,10 @@ public class Title {
     private String author;
 
     @Column(name = "publication_year", nullable = false)
-    private LocalDate publicationYear;
+    private int publicationYear;
 
-    @OneToMany(mappedBy="title")
+    @OneToMany(mappedBy = "title",
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private List<IndividualBook> individualBooks;
 
-    //    todo CascadeType
 }
