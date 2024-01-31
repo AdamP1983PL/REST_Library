@@ -10,6 +10,7 @@ public class ReaderMapper {
     public Reader mapToReader(ReaderDto readerDto) {
         return Reader.builder()
                 .id(readerDto.getId())
+                .email(readerDto.getEmail())
                 .firstName(readerDto.getFirstName())
                 .lastName(readerDto.getLastName())
                 .startingDate(readerDto.getStartingDate())
@@ -19,6 +20,7 @@ public class ReaderMapper {
     public ReaderDto mapToReaderDto(Reader reader) {
         return ReaderDto.builder()
                 .id(reader.getId())
+                .email(reader.getEmail())
                 .firstName(reader.getFirstName())
                 .lastName(reader.getLastName())
                 .startingDate(reader.getStartingDate())

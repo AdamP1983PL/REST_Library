@@ -2,9 +2,11 @@ package com.rest_library.mapper;
 
 import com.rest_library.dto.BooksBorrowingStatsDto;
 import com.rest_library.entity.BooksBorrowingStats;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class BooksBorrowingStatsMapper {
 
     public BooksBorrowingStats mapToBooksBorrowingStats(BooksBorrowingStatsDto booksBorrowingStatsDto) {
@@ -15,6 +17,7 @@ public class BooksBorrowingStatsMapper {
                 .borrowingDate(booksBorrowingStatsDto.getBorrowingDate())
                 .returnDate(booksBorrowingStatsDto.getReturnDate())
                 .build();
+
     }
 
     public BooksBorrowingStatsDto mapToBooksBorrowingStatsDto(BooksBorrowingStats booksBorrowingStats) {

@@ -1,9 +1,7 @@
 package com.rest_library.mapper;
 
 import com.rest_library.dto.IndividualBookDto;
-import com.rest_library.dto.TitleDto;
 import com.rest_library.entity.IndividualBook;
-import com.rest_library.entity.Title;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 

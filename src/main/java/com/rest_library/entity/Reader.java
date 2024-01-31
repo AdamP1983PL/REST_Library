@@ -21,6 +21,9 @@ public class Reader {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
