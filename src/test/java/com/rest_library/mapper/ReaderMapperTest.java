@@ -2,6 +2,7 @@ package com.rest_library.mapper;
 
 import com.rest_library.dto.ReaderDto;
 import com.rest_library.entity.Reader;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -15,6 +16,7 @@ class ReaderMapperTest {
     ReaderMapper readerMapper = new ReaderMapper();
 
     @Test
+    @DisplayName("Testing mapToReader() method.")
     void givenReaderDto_whenMapToReader_thenReturnReaderEntity() {
         // given
         ReaderDto testReaderDto = ReaderDto.builder()
@@ -40,6 +42,7 @@ class ReaderMapperTest {
     }
 
     @Test
+    @DisplayName("Testing mapToReaderDto() method.")
     void givenReaderEntity_whenMapToReaderDto_thenReturnReaderDto() {
         // given
         Reader testReader = Reader.builder()

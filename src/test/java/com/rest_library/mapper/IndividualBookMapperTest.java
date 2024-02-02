@@ -4,6 +4,7 @@ import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.entity.IndividualBook;
 import com.rest_library.entity.Title;
 import com.rest_library.enums.Status;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,6 +21,7 @@ class IndividualBookMapperTest {
             .build();
 
     @Test
+    @DisplayName("Testing mapToIndividualBook() method.")
     void givenIndividualBookDto_whenMapToIndividualBook_thenReturnIndividualBookEntity() {
         // given
         IndividualBookDto testIndividualBookDto = IndividualBookDto.builder()
@@ -43,6 +45,7 @@ class IndividualBookMapperTest {
     }
 
     @Test
+    @DisplayName("Testing mapToIndividualBookDto() method.")
     void givenIndividualBookEntity_whenMapToIndividualBookDto_thenReturnIndividualBookDto() {
         // given
         IndividualBook testIndividualBook = IndividualBook.builder()

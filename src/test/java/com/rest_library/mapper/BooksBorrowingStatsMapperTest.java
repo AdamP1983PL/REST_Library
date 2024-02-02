@@ -3,6 +3,7 @@ package com.rest_library.mapper;
 import com.rest_library.dto.BooksBorrowingStatsDto;
 import com.rest_library.entity.BooksBorrowingStats;
 import com.rest_library.entity.Reader;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -27,6 +28,7 @@ class BooksBorrowingStatsMapperTest {
 
 
     @Test
+    @DisplayName("Testing mapToBooksBorrowingStats() method.")
     void givenBooksBorrowingStatsDto_whenMapToBooksBorrowingStats_thenReturnBooksBorrowingStatsEntity() {
         // given
         BooksBorrowingStatsDto testStatsDto = BooksBorrowingStatsDto.builder()
@@ -58,6 +60,7 @@ class BooksBorrowingStatsMapperTest {
     }
 
     @Test
+    @DisplayName("Testing mapToBooksBorrowingStatsDto() method.")
     void givenBooksBorrowingStatsEntity_whenMapToBooksBorrowingStatsDto_thenReturnBooksBorrowingStatsDto() {
         // given
         BooksBorrowingStats testStats = BooksBorrowingStats.builder()

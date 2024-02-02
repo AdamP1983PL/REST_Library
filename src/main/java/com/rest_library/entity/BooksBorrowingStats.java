@@ -28,6 +28,7 @@ public class BooksBorrowingStats {
             inverseJoinColumns = {@JoinColumn(name = "fk_individualBook")})
     private List<IndividualBook> individualBooks;
 
+    // todo @ManyToOne
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_reader")
     private List<Reader> readersList;

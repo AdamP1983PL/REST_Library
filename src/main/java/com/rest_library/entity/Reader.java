@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,7 +22,7 @@ public class Reader {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "first_name", nullable = false)
@@ -34,6 +35,7 @@ public class Reader {
     @CreatedDate
     private LocalDate startingDate;
 
+    // todo @OneToMany
     @ManyToMany(mappedBy = "readersList",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<BooksBorrowingStats> booksBorrowingStatsList;
