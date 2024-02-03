@@ -37,3 +37,4 @@ out/
 .vscode/
 /src/main/resources/mysql.properties
 /src/main/resources/console_1.sql
+/src/main/resources/questions.txt

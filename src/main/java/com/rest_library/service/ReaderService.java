@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface ReaderService {
 
-    List<ReaderDto> findAllReadersDto();
+    List<ReaderDto> findAllReaders();
 
-    ReaderDto findReaderDto(Long id);
+    ReaderDto findReader(Long id);
 
-    ReaderDto saveReaderDto(ReaderDto readerDto);
+    ReaderDto saveReader(ReaderDto readerDto);
 
-    ReaderDto updateReaderDto(ReaderDto readerDto, Long id);
+    ReaderDto updateReader(ReaderDto readerDto, Long id);
 
-    void deleteReaderDto(Long id);
+    void deleteReader(Long id);
 
 }

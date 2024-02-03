@@ -21,21 +21,21 @@ public class ReaderController {
     @GetMapping("/")
     public ResponseEntity<List<ReaderDto>> findAllReadersDto() {
         log.info("====>>>> ReaderController -> findAllReadersDto() execution start:");
-        List<ReaderDto> readersDto = readerService.findAllReadersDto();
+        List<ReaderDto> readersDto = readerService.findAllReaders();
         return new ResponseEntity<>(readersDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReaderDto> findReaderDtoById(@PathVariable("id") Long id) {
         log.info("====>>>> ReaderController ->  findReaderDtoById for id: " + id + " execution started: ");
-        ReaderDto readerDto = readerService.findReaderDto(id);
+        ReaderDto readerDto = readerService.findReader(id);
         return new ResponseEntity<>(readerDto, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<ReaderDto> addReaderDto(@RequestBody ReaderDto readerDto) {
         log.info("====>>>> ReaderController ->  addReaderDto() execution started: ");
-        ReaderDto savedReaderDto = readerService.saveReaderDto(readerDto);
+        ReaderDto savedReaderDto = readerService.saveReader(readerDto);
         return new ResponseEntity<>(savedReaderDto, HttpStatus.CREATED);
     }
 
@@ -43,14 +43,14 @@ public class ReaderController {
     public ResponseEntity<ReaderDto> updateReaderDto(@RequestBody ReaderDto readerDto,
                                                      @PathVariable("id") Long id) {
         log.info("====>>>> ReaderController -> updateReaderDto() for id: " + id + " execution started: ");
-        ReaderDto updatedReaderDto = readerService.updateReaderDto(readerDto, id);
+        ReaderDto updatedReaderDto = readerService.updateReader(readerDto, id);
         return new ResponseEntity<>(updatedReaderDto, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteReaderDto(@PathVariable("id") Long id) {
         log.info("====>>>> ReaderController -> deleteReaderDto() for id: " + id + " execution started: ");
-        readerService.deleteReaderDto(id);
+        readerService.deleteReader(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
