@@ -19,37 +19,37 @@ public class ReaderController {
     private final ReaderServiceImpl readerService;
 
     @GetMapping("/")
-    public ResponseEntity<List<ReaderDto>> findAllReadersDto() {
-        log.info("====>>>> ReaderController -> findAllReadersDto() execution start:");
+    public ResponseEntity<List<ReaderDto>> findAllReaders() {
+        log.info("====>>>> ReaderController -> findAllReadersDto() execution:");
         List<ReaderDto> readersDto = readerService.findAllReaders();
         return new ResponseEntity<>(readersDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReaderDto> findReaderDtoById(@PathVariable("id") Long id) {
-        log.info("====>>>> ReaderController ->  findReaderDtoById for id: " + id + " execution started: ");
+    public ResponseEntity<ReaderDto> findReaderById(@PathVariable("id") Long id) {
+        log.info("====>>>> ReaderController ->  findReaderDtoById for id: " + id + " execution: ");
         ReaderDto readerDto = readerService.findReader(id);
         return new ResponseEntity<>(readerDto, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ReaderDto> addReaderDto(@RequestBody ReaderDto readerDto) {
+    public ResponseEntity<ReaderDto> createReader(@RequestBody ReaderDto readerDto) {
         log.info("====>>>> ReaderController ->  addReaderDto() execution started: ");
         ReaderDto savedReaderDto = readerService.saveReader(readerDto);
-        return new ResponseEntity<>(savedReaderDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedReaderDto, HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<ReaderDto> updateReaderDto(@RequestBody ReaderDto readerDto,
+    @PutMapping("/{id}")
+    public ResponseEntity<ReaderDto> updateReader(@RequestBody ReaderDto readerDto,
                                                      @PathVariable("id") Long id) {
-        log.info("====>>>> ReaderController -> updateReaderDto() for id: " + id + " execution started: ");
+        log.info("====>>>> ReaderController -> updateReaderDto() for id: " + id + " execution: ");
         ReaderDto updatedReaderDto = readerService.updateReader(readerDto, id);
         return new ResponseEntity<>(updatedReaderDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteReaderDto(@PathVariable("id") Long id) {
-        log.info("====>>>> ReaderController -> deleteReaderDto() for id: " + id + " execution started: ");
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReader(@PathVariable("id") Long id) {
+        log.info("====>>>> ReaderController -> deleteReaderDto() for id: " + id + " execution: ");
         readerService.deleteReader(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

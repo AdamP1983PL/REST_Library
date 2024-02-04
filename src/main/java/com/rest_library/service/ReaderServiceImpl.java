@@ -7,6 +7,7 @@ import com.rest_library.exceptions.ResourceNotFoundException;
 import com.rest_library.mapper.ReaderMapper;
 import com.rest_library.repository.ReaderRepository;
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -82,8 +83,8 @@ public class ReaderServiceImpl implements ReaderService{
     public void deleteReader(Long id) {
         Optional<Reader> optionalReader = readerRepository.findById(id);
         if (optionalReader.isPresent()) {
-            readerRepository.deleteById(id);
             log.info("====>>>> deleteReader() execution");
+            readerRepository.deleteById(id);
         } else {
             throw new ResourceNotFoundException("Reader", "id", id);
         }

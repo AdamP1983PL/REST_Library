@@ -85,7 +85,7 @@ class ReaderServiceImplTest {
 
     @Test
     @DisplayName("Testing saveReader(ReaderDto readerDto) method.")
-    public void givenReaderDtoObject_whenSaveReaderDto_thenReturnSavedReaderObject() {
+    public void givenReaderDtoObject_whenSaveReader_thenReturnSavedReaderObject() {
         // given
         given(readerRepository.findReaderByEmail(testReader.getEmail())).willReturn(Optional.empty());
         given(readerMapper.mapToReader(testReaderDto)).willReturn(testReader);
@@ -113,7 +113,7 @@ class ReaderServiceImplTest {
 
     @Test
     @DisplayName("Testing saveReader(ReaderDto readerDto) method that throws EmailAlreadyExistsException.")
-    public void givenExistingReaderEmail_whenSaveReaderDto_thenThrowsEmailAlreadyExistsException() {
+    public void givenExistingReaderEmail_whenSaveReader_thenThrowsEmailAlreadyExistsException() {
         // given
         given(readerRepository.findReaderByEmail(testReader.getEmail())).willReturn(Optional.ofNullable(testReader));
 
@@ -126,7 +126,7 @@ class ReaderServiceImplTest {
 
     @Test
     @DisplayName("Testing findAllReaders() method - positive scenario (valid input).")
-    public void givenReadersList_whenFindAllReadersDto_thenReturnAllReaders() {
+    public void givenReadersList_whenFindAllReaders_thenReturnAllReaders() {
         // given
         given(readerMapper.mapToReaderDto(testReader)).willReturn(testReaderDto);
         given(readerMapper.mapToReaderDto(testReader2)).willReturn(testReaderDto2);
@@ -147,7 +147,7 @@ class ReaderServiceImplTest {
 
     @Test
     @DisplayName("Testing findAllReaders() method - negative scenario (empty List).")
-    public void givenEmptyReadersList_whenFindAllReadersDto_thenReturnEmptyReadersList() {
+    public void givenEmptyReadersList_whenFindAllReaders_thenReturnEmptyReadersList() {
         // given
         given(readerRepository.findAll()).willReturn(Collections.emptyList());
 
@@ -163,31 +163,31 @@ class ReaderServiceImplTest {
 
     @Test
     @DisplayName("Testing findReader(Long id) method - positive scenario (valid input).")
-    public void givenReadersObjectList_whenFindReaderDto_thenReturnReaderDtoObject() {
+    public void givenReadersObjectList_whenFindReader_thenReturnReaderDtoObject() {
         // given
         given(readerMapper.mapToReaderDto(testReader)).willReturn(testReaderDto);
         given(readerRepository.findById(testReader.getId())).willReturn(Optional.ofNullable(testReader));
 
         // when
-        ReaderDto expectedReader = readerServiceImpl.findReader(testReaderDto.getId());
+        ReaderDto actualReader = readerServiceImpl.findReader(testReaderDto.getId());
 
         // then
         assertAll(
-                () -> assertNotNull(expectedReader),
-                () -> assertEquals("test@test.com", expectedReader.getEmail()),
-                () -> assertEquals("test first name", expectedReader.getFirstName())
+                () -> assertNotNull(actualReader),
+                () -> assertEquals("test@test.com", actualReader.getEmail()),
+                () -> assertEquals("test first name", actualReader.getFirstName())
         );
     }
 
     @Test
     @DisplayName("Testing findReader(Long id) that throws ResourceNotFoundException.")
-    public void givenEmptyReadersList_whenFindReaderDto_thenThrowsResourceNotFoundException() {
+    public void givenEmptyReadersList_whenFindReader_thenThrowsResourceNotFoundException() {
         // given
         given(readerRepository.findById(testReader.getId())).willReturn(Optional.empty());
 
         // when, then
         assertThrows(ResourceNotFoundException.class, () -> {
-            readerServiceImpl.findReader(testReader.getId());
+            readerServiceImpl.findReader(testReaderDto.getId());
         });
         verify(readerRepository, times(1)).findById(anyLong());
     }
@@ -214,20 +214,16 @@ class ReaderServiceImplTest {
 
         given(readerRepository.save(testReader)).willReturn(testReader);
         given(readerRepository.findById(testReader.getId())).willReturn(Optional.ofNullable(testReader));
-        testReader.setEmail("updated@updated.com");
-        testReader.setFirstName("updated first name");
-        testReader.setLastName("updated last name");
-        testReader.setStartingDate(LocalDate.of(2024, 2, 3));
         given(readerRepository.save(testReader)).willReturn(updatedReader);
         given(readerMapper.mapToReaderDto(any())).willReturn(updatedReaderDto);
 
         // when
-        ReaderDto expectedReader = readerServiceImpl.updateReader(testReaderDto, testReaderDto.getId());
+        ReaderDto actualReader = readerServiceImpl.updateReader(testReaderDto, testReaderDto.getId());
 
         // then
         assertAll(
-                () -> assertNotNull(expectedReader),
-                () -> assertEquals("updated@updated.com", expectedReader.getEmail())
+                () -> assertNotNull(actualReader),
+                () -> assertEquals("updated@updated.com", actualReader.getEmail())
         );
     }
 
@@ -249,7 +245,6 @@ class ReaderServiceImplTest {
     @DisplayName("Testing deleteReader() that throws ResourceNotFoundException")
     public void givenEmptyReaderList_whenDeleteReader_thenThrowsResourceNotFoundException() {
         // given
-        List<Reader> readers = Collections.emptyList();
         given(readerRepository.findById(testReader.getId())).willReturn(Optional.empty());
 
         // when, then
@@ -257,39 +252,7 @@ class ReaderServiceImplTest {
             readerServiceImpl.deleteReader(testReader.getId());
         });
         verify(readerRepository, times(1)).findById(anyLong());
+        verify(readerRepository, never()).deleteById(testReader.getId());
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

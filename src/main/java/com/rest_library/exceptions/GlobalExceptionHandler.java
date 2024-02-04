@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .message(exception.getMessage())
                 .path(webRequest.getDescription(false))
-                .errorCode("USER_NOT_FOUND_EXCEPTION")
+                .errorCode("RESOURCE_NOT_FOUND_EXCEPTION")
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);

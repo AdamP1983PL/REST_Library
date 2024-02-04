@@ -33,7 +33,7 @@ public class Reader {
 
     @Column(name = "starting_date", nullable = false)
     @CreatedDate
-    private LocalDate startingDate;
+    public LocalDate startingDate;
 
     // todo @OneToMany
     @ManyToMany(mappedBy = "readersList",

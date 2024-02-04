@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface TitleRepository extends JpaRepository<Title, Long> {
 
     Optional<Title> findByBookTitle(String bookTitle);
+//    Optional<Title> findByBookTitleAndPublicationYear(String bookTitle, int publicationYear);
 
     // todo use findByBookTitle lesson 88
 

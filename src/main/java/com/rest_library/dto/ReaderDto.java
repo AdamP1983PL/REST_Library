@@ -16,6 +16,6 @@ public class ReaderDto {
     private String email;
     private String firstName;
     private String lastName;
-    private LocalDate startingDate;
+    public LocalDate startingDate;
 
 }

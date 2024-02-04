@@ -7,6 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -15,7 +16,7 @@ public class TitleDto {
     private Long id;
     private String bookTitle;
     private String author;
-    private int publicationYear;
-    private List<IndividualBook> individualBooks;
+//    private int publicationYear;
+//    private List<IndividualBook> individualBooks;
 
 }

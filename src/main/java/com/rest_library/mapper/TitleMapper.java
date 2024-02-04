@@ -12,8 +12,8 @@ public class TitleMapper {
                 .id(titleDto.getId())
                 .bookTitle(titleDto.getBookTitle())
                 .author(titleDto.getAuthor())
-                .publicationYear(titleDto.getPublicationYear())
-                .individualBooks(titleDto.getIndividualBooks())
+//                .publicationYear(titleDto.getPublicationYear())
+//                .individualBooks(titleDto.getIndividualBooks())
                 .build();
     }
 
@@ -22,8 +22,8 @@ public class TitleMapper {
                 .id(title.getId())
                 .bookTitle(title.getBookTitle())
                 .author(title.getAuthor())
-                .publicationYear(title.getPublicationYear())
-                .individualBooks(title.getIndividualBooks())
+//                .publicationYear(title.getPublicationYear())
+//                .individualBooks(title.getIndividualBooks())
                 .build();
     }
 
