@@ -51,10 +51,10 @@ public class IndividualBookController {
     }
 
     @GetMapping("/number-of-books")
-    public Long showNumberOfAvailableBooksByTitle(@RequestParam TitleDto titleDto,
+    public Long showNumberOfAvailableBooksByTitle(@RequestParam String bookTitle,
                                                   @RequestParam Status status) {
         log.info("====>>>> IndividualBookController -> showNumberOfAvailableBooksByTitle() execution:");
-        return individualBookServiceImpl.findNumberOfIndividualBooksByBookTitleAndStatus(titleDto, status);
+        return individualBookServiceImpl.findNumberOfIndividualBooksByBookTitleAndStatus(bookTitle, status);
     }
 
     @PostMapping("/")

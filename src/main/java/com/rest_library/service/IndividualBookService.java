@@ -14,7 +14,7 @@ public interface IndividualBookService {
 
     List<IndividualBookDto> findIndividualBooksByBookTitleAndStatus(TitleDto titleDto, Status status);
 
-    Long findNumberOfIndividualBooksByBookTitleAndStatus(TitleDto titleDto, Status status);
+    Long findNumberOfIndividualBooksByBookTitleAndStatus(String bookTitle, Status status);
 
     IndividualBookDto createIndividualBook(IndividualBookDto individualBookDto);
 

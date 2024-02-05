@@ -11,6 +11,10 @@ import lombok.*;
 @Builder
 public class IndividualBookDto {
 
+//    private Long id;
+//    private Title title;
+//    private Status status;
+
     private Long id;
     private Title title;
     private Status status;

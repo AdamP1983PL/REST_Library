@@ -51,9 +51,9 @@ public class IndividualBookServiceImpl implements IndividualBookService{
     }
 
     @Override
-    public Long findNumberOfIndividualBooksByBookTitleAndStatus(TitleDto titleDto, Status status) {
+    public Long findNumberOfIndividualBooksByBookTitleAndStatus(String bookTitle, Status status) {
         log.info("====>>>> findNumberOfIndividualBooksByBookTitleAndStatus() execution");
-        return individualBookRepository.findByTitleBookTitleAndStatus(titleDto.getBookTitle(), Status.AVAILABLE)
+        return individualBookRepository.findByTitleBookTitleAndStatus(bookTitle, Status.AVAILABLE)
                 .stream()
                 .count();
     }
