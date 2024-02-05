@@ -13,7 +13,7 @@ public class BooksBorrowingStatsMapper {
         return BooksBorrowingStats.builder()
                 .id(booksBorrowingStatsDto.getId())
                 .individualBooks(booksBorrowingStatsDto.getIndividualBooksList())
-                .readersList(booksBorrowingStatsDto.getReadersList())
+                .reader(booksBorrowingStatsDto.getReader())
                 .borrowingDate(booksBorrowingStatsDto.getBorrowingDate())
                 .returnDate(booksBorrowingStatsDto.getReturnDate())
                 .build();
@@ -24,7 +24,7 @@ public class BooksBorrowingStatsMapper {
         return BooksBorrowingStatsDto.builder()
                 .id(booksBorrowingStats.getId())
                 .individualBooksList(booksBorrowingStats.getIndividualBooks())
-                .readersList(booksBorrowingStats.getReadersList())
+                .reader(booksBorrowingStats.getReader())
                 .borrowingDate(booksBorrowingStats.getBorrowingDate())
                 .returnDate(booksBorrowingStats.getReturnDate())
                 .build();

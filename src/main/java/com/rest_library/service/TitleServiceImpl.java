@@ -78,4 +78,13 @@ public class TitleServiceImpl implements TitleService {
             throw new ResourceNotFoundException("Title", "id", id);
         }
     }
+
+    @Override
+    public TitleDto findByBookTitle(String bookTitle) {
+        Title foundTitle = titleRepository.findByBookTitle(bookTitle)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found for title: " + bookTitle));
+        log.info("====>>>> findBookByTitle() execution:");
+
+        return titleMapper.mapToTitleDto(foundTitle);
+    }
 }

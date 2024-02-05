@@ -16,4 +16,5 @@ public interface TitleService {
 
     void deleteTitle(Long id);
 
+    TitleDto findByBookTitle(String bookTitle);
 }

@@ -16,7 +16,7 @@ public class BooksBorrowingStatsDto {
 
     private Long id;
     private List<IndividualBook> individualBooksList;
-    private List<Reader> readersList;
+    private Reader reader;
     private LocalDate borrowingDate;
     private LocalDate returnDate;
 

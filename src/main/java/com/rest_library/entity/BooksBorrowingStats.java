@@ -29,9 +29,9 @@ public class BooksBorrowingStats {
     private List<IndividualBook> individualBooks;
 
     // todo @ManyToOne
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_reader")
-    private List<Reader> readersList;
+    private Reader reader;
 
     @CreatedDate
     @Column(name = "borrowing_date", nullable = false)

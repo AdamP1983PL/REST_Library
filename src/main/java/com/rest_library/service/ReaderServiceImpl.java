@@ -7,7 +7,6 @@ import com.rest_library.exceptions.ResourceNotFoundException;
 import com.rest_library.mapper.ReaderMapper;
 import com.rest_library.repository.ReaderRepository;
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class ReaderServiceImpl implements ReaderService{
+public class ReaderServiceImpl implements ReaderService {
 
     private final ReaderRepository readerRepository;
     private final ReaderMapper readerMapper;
@@ -55,7 +54,7 @@ public class ReaderServiceImpl implements ReaderService{
     @Override
     public ReaderDto saveReader(ReaderDto readerDto) {
         Optional<Reader> optionalReader = readerRepository.findReaderByEmail(readerDto.getEmail());
-        if(optionalReader.isPresent()) {
+        if (optionalReader.isPresent()) {
             throw new EmailAlreadyExistException("Email already exists in the database");
         }
 

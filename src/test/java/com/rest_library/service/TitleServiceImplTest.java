@@ -247,4 +247,19 @@ class TitleServiceImplTest {
         verify(titleRepository, never()).deleteById(testTitle.getId());
     }
 
+    @Test
+    @DisplayName("Testing findByBookTitle() method.")
+    public void given_when_then() {
+        // given todo write test
+
+
+        // when
+
+
+        // then
+
+
+    }
+
 }
+

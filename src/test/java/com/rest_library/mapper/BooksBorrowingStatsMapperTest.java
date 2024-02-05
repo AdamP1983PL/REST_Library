@@ -34,7 +34,7 @@ class BooksBorrowingStatsMapperTest {
         BooksBorrowingStatsDto testStatsDto = BooksBorrowingStatsDto.builder()
                 .id(1L)
                 .individualBooksList(Collections.emptyList())
-                .readersList(List.of(testReader))
+                .reader(testReader)
                 .borrowingDate(LocalDate.of(2024, 1, 2))
                 .returnDate(LocalDate.of(2024, 2, 2))
                 .build();
@@ -46,10 +46,10 @@ class BooksBorrowingStatsMapperTest {
         assertAll(
                 () -> assertNotNull(mappedTestStats),
                 () -> assertEquals(1L, mappedTestStats.getId()),
-                () -> assertEquals(1L, mappedTestStats.getReadersList().get(0).getId()),
-                () -> assertEquals("test@test.com", mappedTestStats.getReadersList().get(0).getEmail()),
-                () -> assertEquals("test first name", mappedTestStats.getReadersList().get(0).getFirstName()),
-                () -> assertEquals("test last name", mappedTestStats.getReadersList().get(0).getLastName()),
+                () -> assertEquals(1L, mappedTestStats.getReader().getId()),
+                () -> assertEquals("test@test.com", mappedTestStats.getReader().getEmail()),
+                () -> assertEquals("test first name", mappedTestStats.getReader().getFirstName()),
+                () -> assertEquals("test last name", mappedTestStats.getReader().getLastName()),
                 () -> assertEquals(2024, mappedTestStats.getBorrowingDate().getYear()),
                 () -> assertEquals(1, mappedTestStats.getBorrowingDate().getMonthValue()),
                 () -> assertEquals(2, mappedTestStats.getBorrowingDate().getDayOfMonth()),
@@ -66,7 +66,7 @@ class BooksBorrowingStatsMapperTest {
         BooksBorrowingStats testStats = BooksBorrowingStats.builder()
                 .id(2L)
                 .individualBooks(Collections.emptyList())
-                .readersList(List.of(testReader))
+                .reader(testReader)
                 .borrowingDate(LocalDate.of(2024, 3, 3))
                 .returnDate(LocalDate.of(2024, 4, 4))
                 .build();
@@ -78,10 +78,10 @@ class BooksBorrowingStatsMapperTest {
         assertAll(
                 () -> assertNotNull(mappedTestStatsDto),
                 () -> assertEquals(2L, mappedTestStatsDto.getId()),
-                () -> assertEquals(1L, mappedTestStatsDto.getReadersList().get(0).getId()),
-                () -> assertEquals("test@test.com", mappedTestStatsDto.getReadersList().get(0).getEmail()),
-                () -> assertEquals("test first name", mappedTestStatsDto.getReadersList().get(0).getFirstName()),
-                () -> assertEquals("test last name", mappedTestStatsDto.getReadersList().get(0).getLastName()),
+                () -> assertEquals(1L, mappedTestStatsDto.getReader().getId()),
+                () -> assertEquals("test@test.com", mappedTestStatsDto.getReader().getEmail()),
+                () -> assertEquals("test first name", mappedTestStatsDto.getReader().getFirstName()),
+                () -> assertEquals("test last name", mappedTestStatsDto.getReader().getLastName()),
                 () -> assertEquals(2024, mappedTestStatsDto.getBorrowingDate().getYear()),
                 () -> assertEquals(3, mappedTestStatsDto.getBorrowingDate().getMonthValue()),
                 () -> assertEquals(3, mappedTestStatsDto.getBorrowingDate().getDayOfMonth()),
