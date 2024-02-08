@@ -13,4 +13,5 @@ public interface IndividualBookRepository extends JpaRepository<IndividualBook, 
 
     Optional<IndividualBook> findByTitleBookTitleAndStatus(String title_bookTitle, Status status);
 
+    Optional<IndividualBook> findByTitleBookTitle(String bookTitle);
 }

@@ -5,7 +5,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,7 +27,6 @@ public class BooksBorrowingStats {
             inverseJoinColumns = {@JoinColumn(name = "fk_individualBook")})
     private List<IndividualBook> individualBooks;
 
-    // todo @ManyToOne
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "fk_reader")
     private Reader reader;

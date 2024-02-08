@@ -1,6 +1,7 @@
 package com.rest_library.service;
 
 import com.rest_library.dto.IndividualBookDto;
+import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.dto.TitleDto;
 import com.rest_library.enums.Status;
 
@@ -18,7 +19,7 @@ public interface IndividualBookService {
 
     IndividualBookDto createIndividualBook(IndividualBookDto individualBookDto);
 
-    IndividualBookDto updateIndividualBook(IndividualBookDto individualBookDto, Long id);
+    IndividualBookPostDto createIndividualBook(IndividualBookPostDto individualBookPostDto);
 
     IndividualBookDto updateStatus(IndividualBookDto individualBookDto, Long id);
 

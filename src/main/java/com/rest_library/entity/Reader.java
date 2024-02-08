@@ -35,7 +35,6 @@ public class Reader {
     @CreatedDate
     public LocalDate startingDate;
 
-    // todo @OneToMany
     @OneToMany(mappedBy = "reader",
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<BooksBorrowingStats> booksBorrowingStatsList;

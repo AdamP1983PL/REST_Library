@@ -1,6 +1,7 @@
 package com.rest_library.controller;
 
 import com.rest_library.dto.IndividualBookDto;
+import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.dto.TitleDto;
 import com.rest_library.enums.Status;
 import com.rest_library.service.IndividualBookServiceImpl;
@@ -64,12 +65,12 @@ public class IndividualBookController {
         return new ResponseEntity<>(savedIndividualBookDto, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<IndividualBookDto> updateIndividualBookDto(@RequestBody IndividualBookDto individualBookDto,
-                                                                     @PathVariable("id") Long id) {
-        log.info("====>>>> IndividualBookController -> updateIndividualBookDto() execution:");
-        IndividualBookDto updatedIndividualBookDto = individualBookServiceImpl.updateIndividualBook(individualBookDto, id);
-        return new ResponseEntity<>(updatedIndividualBookDto, HttpStatus.OK);
+    @PostMapping("/ibpdto/")
+    public ResponseEntity<IndividualBookPostDto> createIndividualBook(
+            @RequestBody IndividualBookPostDto individualBookPostDto) {
+        log.info("====>>>> IndividualBookController -> createIndividualBook() execution:");
+        IndividualBookPostDto savedIndividualBookPostDto = individualBookServiceImpl.createIndividualBook(individualBookPostDto);
+        return new ResponseEntity<>(savedIndividualBookPostDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/status/{id}")
@@ -77,32 +78,16 @@ public class IndividualBookController {
                                                                         @PathVariable("id") Long id) {
 
         log.info("====>>>> IndividualBookController " +
-                "-> updateIndividualBookStatus() for id: " + id +
-                ", individual book: " + individualBookDto.getTitle().getBookTitle() + " execution:");
+                "-> updateIndividualBookStatus() for id: " + id + " execution:");
         IndividualBookDto updatedIndividualBookDto = individualBookServiceImpl.updateStatus(individualBookDto, id);
         return new ResponseEntity<>(updatedIndividualBookDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteIndividualBook(@PathVariable("id") Long id) {
-        log.info("====>>>> IndividualBookController -> deleteIndividualBook() execution:");
+        log.info("====>>>> IndividualBookController -> deleteIndividualBook() for id: " + id + " execution:");
         individualBookServiceImpl.deleteIndividualBook(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

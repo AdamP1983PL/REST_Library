@@ -1,7 +1,5 @@
 package com.rest_library.dto;
 
-import com.rest_library.entity.IndividualBook;
-import com.rest_library.entity.Reader;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -15,8 +13,8 @@ import java.util.List;
 public class BooksBorrowingStatsDto {
 
     private Long id;
-    private List<IndividualBook> individualBooksList;
-    private Reader reader;
+    private List<Long> individualBooksId;
+    private Long readerId;
     private LocalDate borrowingDate;
     private LocalDate returnDate;
 

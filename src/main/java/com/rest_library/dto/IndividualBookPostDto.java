@@ -9,10 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class IndividualBookDto {
+public class IndividualBookPostDto {
 
     private Long id;
-    private String individualBookTitle;
+    private Title title;
     private Status status;
 
 }

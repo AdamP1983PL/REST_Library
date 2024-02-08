@@ -18,11 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class IndividualBookRepositoryTest {
+    IndividualBook individualBook1;
+    IndividualBook individualBook2;
+    IndividualBook individualBook3;
 
     @Autowired
     private IndividualBookRepository individualBookRepository;
-    IndividualBook individualBook1;
-    IndividualBook individualBook2;
 
     @BeforeEach
     void initialise() {
@@ -45,6 +46,16 @@ class IndividualBookRepositoryTest {
                         Collections.emptyList()))
                 .status(Status.IN_CIRCULATION)
                 .build();
+
+        individualBook3 = IndividualBook.builder()
+                .id(2L)
+                .title(new Title(1L,
+                        "Dark forest",
+                        "Cixin Liu",
+                        2022,
+                        Collections.emptyList()))
+                .status(Status.AVAILABLE)
+                .build();
     }
 
     @AfterEach
@@ -62,7 +73,8 @@ class IndividualBookRepositoryTest {
 
         // when
         List<IndividualBook> filteredList = individualBookRepository
-                .findByTitleBookTitleAndStatus(individualBook1.getTitle().getBookTitle(), Status.AVAILABLE).stream().toList();
+                .findByTitleBookTitleAndStatus(individualBook1.getTitle().getBookTitle(), Status.AVAILABLE)
+                .stream().toList();
 
         System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getBookTitle());
         System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getAuthor());
@@ -75,6 +87,28 @@ class IndividualBookRepositoryTest {
                 () -> assertEquals("Three body problem", filteredList.get(0).getTitle().getBookTitle()),
                 () -> assertEquals("Cixin Liu", filteredList.get(0).getTitle().getAuthor()),
                 () -> assertEquals(Status.AVAILABLE, filteredList.get(0).getStatus())
+        );
+    }
+
+    @Test
+    @DisplayName("Testing findByTitle() method.")
+    public void given_when_then() {
+        // given
+        individualBookRepository.save(individualBook1);
+        individualBookRepository.save(individualBook3);
+        List<IndividualBook> individualBooks = new ArrayList<>(List.of(individualBook1, individualBook3));
+
+        // when
+        List<IndividualBook> filteredList = individualBookRepository
+                .findByTitleBookTitle(individualBook1.getTitle().getBookTitle()).stream().toList();
+
+        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getBookTitle());
+
+        // then
+        assertAll(
+                () -> assertNotNull(filteredList),
+                () -> assertEquals(1, filteredList.size()),
+                () -> assertEquals("Three body problem", filteredList.get(0).getTitle().getBookTitle())
         );
     }
 

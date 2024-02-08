@@ -2,17 +2,31 @@ package com.rest_library.mapper;
 
 import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.entity.IndividualBook;
-import lombok.NoArgsConstructor;
+import com.rest_library.entity.Title;
+import com.rest_library.exceptions.ResourceNotFoundException;
+import com.rest_library.repository.TitleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
-@NoArgsConstructor
 public class IndividualBookMapper {
+
+    private TitleRepository titleRepository;
+
+    public IndividualBookMapper() {
+    }
+
+    @Autowired
+    public IndividualBookMapper(TitleRepository titleRepository) {
+        this.titleRepository = titleRepository;
+    }
 
     public IndividualBook mapToIndividualBook(IndividualBookDto individualBookDto) {
         return IndividualBook.builder()
                 .id(individualBookDto.getId())
-                .title(individualBookDto.getTitle())
+                .title(mapIndividualBookTitleToTitle(individualBookDto.getIndividualBookTitle()))
                 .status(individualBookDto.getStatus())
                 .build();
     }
@@ -20,9 +34,18 @@ public class IndividualBookMapper {
     public IndividualBookDto mapToIndividualBookDto(IndividualBook individualBook) {
         return IndividualBookDto.builder()
                 .id(individualBook.getId())
-                .title(individualBook.getTitle())
+                .individualBookTitle(individualBook.getTitle().getBookTitle())
                 .status(individualBook.getStatus())
                 .build();
+    }
+
+    public Title mapIndividualBookTitleToTitle(String individualBookTitle) {
+        Optional<Title> optionalTitleObject = this.titleRepository.findByBookTitle(individualBookTitle);
+        if (optionalTitleObject.isPresent()) {
+            return optionalTitleObject.get();
+        } else {
+            throw new ResourceNotFoundException("Resource not fount for title: " + individualBookTitle);
+        }
     }
 
 }
