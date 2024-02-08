@@ -111,7 +111,7 @@ class BooksBorrowingStatsServiceImplTest {
         // given
         List<IndividualBook> individualBookList = new ArrayList<>(List.of(individualBook1, individualBook2));
 
-        given(individualBookRepository.findByTitleBookTitle(testTitle.getBookTitle()))
+        given(individualBookRepository.findFirstByTitleBookTitleAndStatus(testTitle.getBookTitle(), Status.AVAILABLE))
                 .willReturn(Optional.ofNullable(individualBookList.get(0)));
         given(individualBookPostMapper.mapToIndividualBookPostDto(individualBook1))
                 .willReturn(individualBookPostDto1);

@@ -41,9 +41,12 @@ public class TitleServiceImpl implements TitleService {
 
     @Override
     public TitleDto saveTitle(TitleDto titleDto) {
-        Optional<Title> optionalTitle = titleRepository.findByBookTitle(titleDto.getBookTitle());
-        if(optionalTitle.isPresent()){
-            throw new TitleAlreadyExistsException("Title already exists in the database");
+        List<Title> tempTitle = titleRepository.findByBookTitle(titleDto.getBookTitle());
+
+        for (Title title : tempTitle) {
+            if (title != null) {
+                throw new TitleAlreadyExistsException("Title already exists in the database");
+            }
         }
 
         log.info("====>>>> saveTitle() execution");
@@ -80,11 +83,12 @@ public class TitleServiceImpl implements TitleService {
     }
 
     @Override
-    public TitleDto findByBookTitle(String bookTitle) {
-        Title foundTitle = titleRepository.findByBookTitle(bookTitle)
-                .orElseThrow(() -> new ResourceNotFoundException("Resource not found for title: " + bookTitle));
+    public List<TitleDto> findByBookTitle(String bookTitle) {
+        List<Title> foundTitle = titleRepository.findByBookTitle(bookTitle);
         log.info("====>>>> findBookByTitle() execution:");
 
-        return titleMapper.mapToTitleDto(foundTitle);
+        return foundTitle.stream()
+                .map(titleMapper::mapToTitleDto)
+                .collect(Collectors.toList());
     }
 }

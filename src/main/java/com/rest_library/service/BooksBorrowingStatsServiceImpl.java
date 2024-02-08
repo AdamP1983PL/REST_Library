@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,18 +23,15 @@ public class BooksBorrowingStatsServiceImpl implements BooksBorrowingStatsServic
 
     @Override
     public IndividualBookPostDto borrowAvailableBookByTitle(String title) {
-        Optional<IndividualBook> libraryBooksByTitle = individualBookRepository.findByTitleBookTitle(title);
-
-        IndividualBook availableBookToBorrow = libraryBooksByTitle.stream()
-                .filter(book -> book.getStatus().equals(Status.AVAILABLE))
-                .findFirst()
+        IndividualBook libraryBooksByTitle = individualBookRepository.findFirstByTitleBookTitleAndStatus(title, Status.AVAILABLE)
                 .orElseThrow(() -> new ResourceNotFoundException("No book with title: " + title + " available."));
 
-        availableBookToBorrow.setStatus(Status.IN_CIRCULATION);
-        individualBookRepository.save(availableBookToBorrow);
+
+        libraryBooksByTitle.setStatus(Status.IN_CIRCULATION);
+        individualBookRepository.save(libraryBooksByTitle);
 
         log.info("====>>>> borrowAvailableBookByTitle(String title) execution");
-        return individualBookPostMapper.mapToIndividualBookPostDto(availableBookToBorrow);
+        return individualBookPostMapper.mapToIndividualBookPostDto(libraryBooksByTitle);
     }
 
     @Override

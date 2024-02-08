@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -43,7 +44,7 @@ public class IndividualBookController {
              @RequestParam("status") Status status) {
         log.info("====>>>> IndividualBookController -> findIndividualBookByTitleAndStatus() execution:");
 
-        TitleDto titleDto = titleService.findByBookTitle(bookTitle);
+        TitleDto titleDto = titleService.findByBookTitle(bookTitle).get(0);
 
         List<IndividualBookDto> individualBooksDto = individualBookServiceImpl
                 .findIndividualBooksByBookTitleAndStatus(titleDto, status);

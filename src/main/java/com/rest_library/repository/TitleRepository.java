@@ -4,14 +4,11 @@ import com.rest_library.entity.Title;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface TitleRepository extends JpaRepository<Title, Long> {
 
-    Optional<Title> findByBookTitle(String bookTitle);
-//    Optional<Title> findByBookTitleAndPublicationYear(String bookTitle, int publicationYear);
-
-    // todo use findByBookTitle lesson 88
+    List<Title> findByBookTitle(String bookTitle);
 
 }

@@ -2,6 +2,7 @@ package com.rest_library.controller;
 
 import com.rest_library.dto.TitleDto;
 import com.rest_library.service.TitleService;
+import com.rest_library.service.TitleServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequestMapping("api/v1/titles")
 public class TitleController {
 
-    private final TitleService titleService;
+    private final TitleServiceImpl titleService;
 
     @GetMapping("/")
     public ResponseEntity<List<TitleDto>> findAllTitles() {

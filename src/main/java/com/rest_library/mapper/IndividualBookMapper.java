@@ -40,9 +40,9 @@ public class IndividualBookMapper {
     }
 
     public Title mapIndividualBookTitleToTitle(String individualBookTitle) {
-        Optional<Title> optionalTitleObject = this.titleRepository.findByBookTitle(individualBookTitle);
-        if (optionalTitleObject.isPresent()) {
-            return optionalTitleObject.get();
+        Title tempTitleObject = titleRepository.findByBookTitle(individualBookTitle).get(0);
+        if (tempTitleObject != null) {
+            return tempTitleObject;
         } else {
             throw new ResourceNotFoundException("Resource not fount for title: " + individualBookTitle);
         }

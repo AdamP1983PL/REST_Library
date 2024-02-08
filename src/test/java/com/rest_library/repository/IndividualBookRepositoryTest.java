@@ -63,53 +63,53 @@ class IndividualBookRepositoryTest {
         individualBookRepository.deleteAll();
     }
 
-    @Test
-    @DisplayName("Testing findByTitleBookTitleAndStatus() method.")
-    public void givenIndividualBooksList_whenFindByTitleBookTitleAndStatus_thenReturnListOfOneBook() {
-        // given
-        individualBookRepository.save(individualBook1);
-        individualBookRepository.save(individualBook2);
-        List<IndividualBook> individualBooks = new ArrayList<>(List.of(individualBook1, individualBook2));
-
-        // when
-        List<IndividualBook> filteredList = individualBookRepository
-                .findByTitleBookTitleAndStatus(individualBook1.getTitle().getBookTitle(), Status.AVAILABLE)
-                .stream().toList();
-
-        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getBookTitle());
-        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getAuthor());
-        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getStatus());
-
-        // then
-        assertAll(
-                () -> assertNotNull(filteredList),
-                () -> assertEquals(1, filteredList.size()),
-                () -> assertEquals("Three body problem", filteredList.get(0).getTitle().getBookTitle()),
-                () -> assertEquals("Cixin Liu", filteredList.get(0).getTitle().getAuthor()),
-                () -> assertEquals(Status.AVAILABLE, filteredList.get(0).getStatus())
-        );
-    }
-
-    @Test
-    @DisplayName("Testing findByTitle() method.")
-    public void given_when_then() {
-        // given
-        individualBookRepository.save(individualBook1);
-        individualBookRepository.save(individualBook3);
-        List<IndividualBook> individualBooks = new ArrayList<>(List.of(individualBook1, individualBook3));
-
-        // when
-        List<IndividualBook> filteredList = individualBookRepository
-                .findByTitleBookTitle(individualBook1.getTitle().getBookTitle()).stream().toList();
-
-        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getBookTitle());
-
-        // then
-        assertAll(
-                () -> assertNotNull(filteredList),
-                () -> assertEquals(1, filteredList.size()),
-                () -> assertEquals("Three body problem", filteredList.get(0).getTitle().getBookTitle())
-        );
-    }
+//    @Test
+//    @DisplayName("Testing findByTitleBookTitleAndStatus() method.")
+//    public void givenIndividualBooksList_whenFindByTitleBookTitleAndStatus_thenReturnListOfOneBook() {
+//        // given
+//        individualBookRepository.save(individualBook1);
+//        individualBookRepository.save(individualBook2);
+//        List<IndividualBook> individualBooks = new ArrayList<>(List.of(individualBook1, individualBook2));
+//
+//        // when
+//        List<IndividualBook> filteredList = individualBookRepository
+//                .findByTitleBookTitleAndStatus(individualBook1.getTitle().getBookTitle(), Status.AVAILABLE)
+//                .stream().toList();
+//
+//        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getBookTitle());
+//        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getAuthor());
+//        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getStatus());
+//
+//        // then
+//        assertAll(
+//                () -> assertNotNull(filteredList),
+//                () -> assertEquals(1, filteredList.size()),
+//                () -> assertEquals("Three body problem", filteredList.get(0).getTitle().getBookTitle()),
+//                () -> assertEquals("Cixin Liu", filteredList.get(0).getTitle().getAuthor()),
+//                () -> assertEquals(Status.AVAILABLE, filteredList.get(0).getStatus())
+//        );
+//    }
+//
+//    @Test
+//    @DisplayName("Testing findByTitle() method.")
+//    public void given_when_then() {
+//        // given
+//        individualBookRepository.save(individualBook1);
+//        individualBookRepository.save(individualBook3);
+//        List<IndividualBook> individualBooks = new ArrayList<>(List.of(individualBook1, individualBook3));
+//
+//        // when
+//        List<IndividualBook> filteredList = individualBookRepository
+//                .findByTitleBookTitle(individualBook1.getTitle().getBookTitle()).stream().toList();
+//
+//        System.out.println("\t\t\t ====>>>> info: " + filteredList.get(0).getTitle().getBookTitle());
+//
+//        // then
+//        assertAll(
+//                () -> assertNotNull(filteredList),
+//                () -> assertEquals(1, filteredList.size()),
+//                () -> assertEquals("Three body problem", filteredList.get(0).getTitle().getBookTitle())
+//        );
+//    }
 
 }

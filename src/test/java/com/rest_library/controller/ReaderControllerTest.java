@@ -6,14 +6,11 @@ import com.google.gson.GsonBuilder;
 import com.rest_library.dto.ReaderDto;
 import com.rest_library.entity.Reader;
 import com.rest_library.mapper.ReaderMapper;
-import com.rest_library.service.ReaderService;
+import com.rest_library.service.ReaderServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,6 +28,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
 
 /*SpringBoot provides @WebMvcTest annotation to test Spring MVC Controller.
  * Also, @WebMvcTest based tests run faster as it will load only the specific controller
@@ -52,7 +50,6 @@ import static org.mockito.Mockito.when;
 
 @SpringJUnitWebConfig
 @WebMvcTest(ReaderController.class)
-@ExtendWith(MockitoExtension.class)
 class ReaderControllerTest {
 
     private Reader testReader;
@@ -64,13 +61,10 @@ class ReaderControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ReaderService readerService;
+    private ReaderServiceImpl readerService;
 
     @MockBean
     private ReaderMapper readerMapper;
-
-    @MockBean
-    private ReaderController readerController;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -132,46 +126,18 @@ class ReaderControllerTest {
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
                 .andDo(MockMvcResultHandlers.print())
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.id",
-//                        Matchers.is("1L")))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.email",
-//                        Matchers.is("test@test.com")))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName",
-//                        Matchers.is("test first name")))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName",
-//                        Matchers.is("test last name")))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.startingDate",
-//                        Matchers.is(LocalDate.of(1111, 1, 1))));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id",
+                        Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email",
+                        Matchers.is("test@test.com")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName",
+                        Matchers.is("test first name")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName",
+                        Matchers.is("test last name")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startingDate",
+                        Matchers.is("1111-01-01")));
     }
-
-//    @Test
-//    @DisplayName("Testing createReader() method.")
-//    public void givenReaderObject_whenCreateReader_thenReturnSavedReader() throws Exception {
-//        // given
-//        BDDMockito.given(readerService.saveReader(ArgumentMatchers.any(ReaderDto.class)))
-//                .willAnswer((invocation) -> invocation.getArgument(0));
-//
-//        // when
-//        ResultActions response =  mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/readers")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(objectMapper.writeValueAsString(testReaderDto)));
-//
-//        // then
-//        System.out.println("====>>>>Response Body: " + response.andReturn().getResponse().getContentAsString());
-//
-//        response.andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.email",
-//                        CoreMatchers.is(testReaderDto.getEmail())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName",
-//                        CoreMatchers.is(testReaderDto.getFirstName())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName",
-//                        CoreMatchers.is(testReaderDto.getLastName())))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.startingDate",
-//                        CoreMatchers.is(testReaderDto.getStartingDate())));
-//    }
-
 
     @Test
     @DisplayName("Testing findAllReaders() that should return empty List.")
@@ -193,7 +159,7 @@ class ReaderControllerTest {
     public void givenListOfReaders_whenFindAllReaders_thenReturnReadersList() throws Exception {
         // given
         List<ReaderDto> readersDto = new ArrayList<>(List.of(testReaderDto, testReaderDto2));
-        BDDMockito.when(readerService.findAllReaders()).thenReturn(readersDto);
+        when(readerService.findAllReaders()).thenReturn(readersDto);
 
         // when, then
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/readers/")
@@ -203,9 +169,6 @@ class ReaderControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].email", Matchers.is("test@test.com")));
 
         System.out.println("\n\n\t====>>>> response: " + response + "\n\n");
-
     }
 
-
 }
-// todo refactor the code, use static method
