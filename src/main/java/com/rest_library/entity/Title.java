@@ -1,5 +1,7 @@
 package com.rest_library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Table(name = "titles")
 public class Title {
 

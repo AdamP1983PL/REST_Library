@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BooksBorrowingStatsService {
 
-    List<IndividualBookPostDto> borrowAvailableBooksByTitle(String title);
+    IndividualBookPostDto borrowAvailableBookByTitle(String title);
 
 //    IndividualBookPostDto returnABook(IndividualBookPostDto individualBookPostDto);
 

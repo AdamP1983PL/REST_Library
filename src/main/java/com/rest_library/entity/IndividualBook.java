@@ -1,5 +1,7 @@
 package com.rest_library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.rest_library.enums.Status;
 import lombok.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "individual_books")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class IndividualBook {
 
     @Id
