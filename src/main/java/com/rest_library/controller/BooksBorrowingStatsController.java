@@ -1,5 +1,6 @@
 package com.rest_library.controller;
 
+import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.service.BooksBorrowingStatsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,12 @@ public class BooksBorrowingStatsController {
     public ResponseEntity<IndividualBookPostDto> borrowAvailableBook(@PathVariable("title") String title) {
         IndividualBookPostDto borrowedBook = booksBorrowingStatsServiceImpl.borrowAvailableBookByTitle(title);
         return new ResponseEntity<>(borrowedBook, HttpStatus.OK);
+    }
+
+    @PostMapping("/return/")
+    public ResponseEntity<IndividualBookDto> returnABook(@RequestBody IndividualBookDto individualBookDto) {
+        IndividualBookDto returnedBook = booksBorrowingStatsServiceImpl.returnABook(individualBookDto);
+        return new ResponseEntity<>(returnedBook, HttpStatus.OK);
     }
 
 //    @PostMapping("/return/")

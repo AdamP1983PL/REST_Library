@@ -43,16 +43,11 @@ public class TitleServiceImpl implements TitleService {
     public TitleDto saveTitle(TitleDto titleDto) {
         List<Title> tempTitle = titleRepository.findByBookTitle(titleDto.getBookTitle());
 
-        for (Title title : tempTitle) {
-            if (title != null) {
-                throw new TitleAlreadyExistsException("Title already exists in the database");
-            }
+        if (tempTitle.size() > 0) {
+            throw new TitleAlreadyExistsException("Title already exists in the database");
         }
 
         log.info("====>>>> saveTitle() execution");
-//        Title title = titleMapper.mapToTitle(titleDto);
-//        Title savedTitle = titleRepository.save(title);
-//        return titleMapper.mapToTitleDto(savedTitle);
         return titleMapper.mapToTitleDto(titleRepository.save(titleMapper.mapToTitle(titleDto)));
     }
 

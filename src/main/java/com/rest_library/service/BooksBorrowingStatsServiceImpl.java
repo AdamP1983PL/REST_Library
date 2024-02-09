@@ -1,9 +1,11 @@
 package com.rest_library.service;
 
+import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.entity.IndividualBook;
 import com.rest_library.enums.Status;
 import com.rest_library.exceptions.ResourceNotFoundException;
+import com.rest_library.mapper.IndividualBookMapper;
 import com.rest_library.mapper.IndividualBookPostMapper;
 import com.rest_library.repository.IndividualBookRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +22,7 @@ public class BooksBorrowingStatsServiceImpl implements BooksBorrowingStatsServic
 
     private final IndividualBookRepository individualBookRepository;
     private final IndividualBookPostMapper individualBookPostMapper;
+    private final IndividualBookMapper individualBookMapper;
 
     @Override
     public IndividualBookPostDto borrowAvailableBookByTitle(String title) {
@@ -35,29 +38,47 @@ public class BooksBorrowingStatsServiceImpl implements BooksBorrowingStatsServic
     }
 
     @Override
-    public List<IndividualBookPostDto> returnBooks(List<IndividualBookPostDto> individualBooks) {
+    public IndividualBookDto returnABook(IndividualBookDto individualBookDto) {
         List<IndividualBook> allLibraryBooks = individualBookRepository.findAll();
-        List<IndividualBook> returnedBooks = individualBooks.stream()
-                .map(individualBookPostMapper::mapToIndividualBook)
-                .collect(Collectors.toList());
+        log.info("====>>>> allLibraryBooks: " + allLibraryBooks);
+        IndividualBook returnedBook = individualBookMapper.mapToIndividualBook(individualBookDto);
+        log.info("====>>>> returnedBook: " + returnedBook);
 
-        boolean allBooksBelongToLibrary = returnedBooks.stream()
-                .allMatch(libraryBook -> allLibraryBooks.stream()
-                        .anyMatch(returnedBook -> returnedBook.getId().equals(libraryBook.getId())));
+//        if (!allLibraryBooks.contains(returnedBook)) {
+//            throw new IllegalArgumentException("Returned book doesn't belong to the library's collection");
+//        } else {
+            returnedBook.setStatus(Status.AVAILABLE);
+            individualBookRepository.save(returnedBook);
+//        }
 
-        if (allBooksBelongToLibrary) {
-            returnedBooks.forEach(book -> book.setStatus(Status.AVAILABLE));
-            individualBookRepository.saveAll(returnedBooks);
-
-            log.info("====>>>> returnBooks(List<IndividualBookPostDto> individualBooks) execution");
-            return returnedBooks.stream()
-                    .map(individualBookPostMapper::mapToIndividualBookPostDto)
-                    .collect(Collectors.toList());
-
-        } else {
-            throw new IllegalArgumentException("Not all returned books belong to the library's collection");
-        }
+        log.info("====>>>> returnABook(IndividualBookPostDto individualBookPostDto) execution:");
+        return individualBookMapper.mapToIndividualBookDto(returnedBook);
     }
+//
+//    @Override
+//    public List<IndividualBookPostDto> returnBooks(List<IndividualBookPostDto> individualBooks) {
+//        List<IndividualBook> allLibraryBooks = individualBookRepository.findAll();
+//        List<IndividualBook> returnedBooks = individualBooks.stream()
+//                .map(individualBookPostMapper::mapToIndividualBook)
+//                .collect(Collectors.toList());
+//
+//        boolean allBooksBelongToLibrary = returnedBooks.stream()
+//                .allMatch(libraryBook -> allLibraryBooks.stream()
+//                        .anyMatch(returnedBook -> returnedBook.getId().equals(libraryBook.getId())));
+//
+//        if (allBooksBelongToLibrary) {
+//            returnedBooks.forEach(book -> book.setStatus(Status.AVAILABLE));
+//            individualBookRepository.saveAll(returnedBooks);
+//
+//            log.info("====>>>> returnBooks(List<IndividualBookPostDto> individualBooks) execution");
+//            return returnedBooks.stream()
+//                    .map(individualBookPostMapper::mapToIndividualBookPostDto)
+//                    .collect(Collectors.toList());
+//
+//        } else {
+//            throw new IllegalArgumentException("Not all returned books belong to the library's collection");
+//        }
+//    }
 }
 
 
