@@ -1,7 +1,6 @@
 package com.rest_library.controller;
 
 import com.rest_library.dto.TitleDto;
-import com.rest_library.service.TitleService;
 import com.rest_library.service.TitleServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,23 +55,3 @@ public class TitleController {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -29,9 +29,4 @@ public class BooksBorrowingStatsController {
         return new ResponseEntity<>(returnedBook, HttpStatus.OK);
     }
 
-//    @PostMapping("/return/")
-//    public ResponseEntity<IndividualBookPostDto> returnBooks(@RequestBody IndividualBookPostDto individualBookPostDto) {
-//        IndividualBookPostDto returnedBook = booksBorrowingStatsServiceImpl.returnBooks()
-//    }
-
 }

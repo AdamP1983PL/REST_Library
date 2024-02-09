@@ -57,7 +57,6 @@ public class TitleServiceImpl implements TitleService {
                 .map(title -> {
                     title.setBookTitle(titleDto.getBookTitle());
                     title.setAuthor(titleDto.getAuthor());
-//                    title.setPublicationYear(titleDto.getPublicationYear());
                     log.info("====>>>> updateTitle() execution");
                     return titleRepository.save(title);
                 })

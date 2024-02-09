@@ -1,6 +1,5 @@
 package com.rest_library.dto;
 
-import com.rest_library.entity.Title;
 import com.rest_library.enums.Status;
 import lombok.*;
 

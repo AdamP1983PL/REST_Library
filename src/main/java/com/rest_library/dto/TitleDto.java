@@ -16,7 +16,5 @@ public class TitleDto {
     private Long id;
     private String bookTitle;
     private String author;
-//    private int publicationYear;
-//    private List<IndividualBook> individualBooks;
 
 }

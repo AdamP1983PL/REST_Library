@@ -22,7 +22,6 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-        // todo use ResourceNotFoundException lesson 88, 89
     }
 
     @ExceptionHandler(EmailAlreadyExistException.class)
@@ -36,7 +35,6 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-        // todo use EmailAlreadyExistsException lesson 88, 89
     }
 
     @ExceptionHandler(TitleAlreadyExistsException.class)
@@ -50,7 +48,6 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-        // todo use TitleAlreadyExistsException lesson 88, 89
     }
 
     @ExceptionHandler(Exception.class)
@@ -64,7 +61,6 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-        // todo use handleException lesson 89
     }
 
 }

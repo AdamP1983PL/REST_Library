@@ -9,6 +9,4 @@ public interface BooksBorrowingStatsService {
 
     IndividualBookDto returnABook(IndividualBookDto individualBookDto);
 
-//    List<IndividualBookPostDto> returnBooks(List<IndividualBookPostDto> individualBooks);
-
 }

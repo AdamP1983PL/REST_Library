@@ -41,7 +41,7 @@ public class ReaderController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ReaderDto> updateReader(@RequestBody ReaderDto readerDto,
-                                                     @PathVariable("id") Long id) {
+                                                  @PathVariable("id") Long id) {
         log.info("====>>>> ReaderController -> updateReaderDto() for id: " + id + " execution: ");
         ReaderDto updatedReaderDto = readerService.updateReader(readerDto, id);
         return new ResponseEntity<>(updatedReaderDto, HttpStatus.OK);
@@ -53,8 +53,5 @@ public class ReaderController {
         readerService.deleteReader(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    // todo AOP for all methods
-
 
 }

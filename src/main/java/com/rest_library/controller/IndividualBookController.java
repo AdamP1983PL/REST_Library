@@ -4,6 +4,7 @@ import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.dto.TitleDto;
 import com.rest_library.enums.Status;
+import com.rest_library.exceptions.ResourceNotFoundException;
 import com.rest_library.service.IndividualBookServiceImpl;
 import com.rest_library.service.TitleServiceImpl;
 import lombok.AllArgsConstructor;
@@ -12,8 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -83,6 +84,7 @@ public class IndividualBookController {
         IndividualBookDto updatedIndividualBookDto = individualBookServiceImpl.updateStatus(individualBookDto, id);
         return new ResponseEntity<>(updatedIndividualBookDto, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteIndividualBook(@PathVariable("id") Long id) {

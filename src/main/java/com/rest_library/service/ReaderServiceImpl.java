@@ -40,17 +40,6 @@ public class ReaderServiceImpl implements ReaderService {
         return readerMapper.mapToReaderDto(tempReader);
     }
 
-//    @Override
-//    public ReaderDto addNewReaderDto(ReaderDto readerDto) {
-//        Optional<Reader> optionalReader = readerRepository.findReaderByEmail(readerDto.getEmail());
-//        if(optionalReader.isPresent()) {
-//            throw new EmailAlreadyExistException("Email already exists in the database");
-//        }
-//        Reader reader = readerMapper.mapToReader(readerDto);
-//        Reader savedReader = readerRepository.save(reader);
-//        return readerMapper.mapToReaderDto(savedReader);
-//    }
-
     @Override
     public ReaderDto saveReader(ReaderDto readerDto) {
         Optional<Reader> optionalReader = readerRepository.findReaderByEmail(readerDto.getEmail());

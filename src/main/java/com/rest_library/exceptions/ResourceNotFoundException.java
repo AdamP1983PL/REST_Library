@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException{
+public class ResourceNotFoundException extends RuntimeException {
     private String message;
     private String resourceName;
     private String fieldName;
@@ -26,7 +26,4 @@ public class ResourceNotFoundException extends RuntimeException{
 
     }
 
-    // todo use ResourceNotFoundException lesson 86!!!!!!!!!!!!!!!
-    // todo add CustomExceptions
-    // todo add GlobalExceptionHandler
 }

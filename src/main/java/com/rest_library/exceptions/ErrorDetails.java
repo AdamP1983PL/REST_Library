@@ -16,6 +16,4 @@ public class ErrorDetails {
     private String path;
     private String errorCode;
 
-    // todo lesson 87
-
 }

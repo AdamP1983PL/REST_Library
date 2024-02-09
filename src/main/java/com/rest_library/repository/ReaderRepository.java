@@ -11,6 +11,4 @@ public interface ReaderRepository extends JpaRepository<Reader, Long> {
 
     Optional<Reader> findReaderByEmail(String email);
 
-    // todo use findByEmail lesson 88
-
 }

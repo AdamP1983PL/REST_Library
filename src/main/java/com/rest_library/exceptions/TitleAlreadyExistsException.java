@@ -6,14 +6,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class TitleAlreadyExistsException extends RuntimeException{
+public class TitleAlreadyExistsException extends RuntimeException {
     private String message;
 
     public TitleAlreadyExistsException(String message) {
         super(message);
         log.info("====>>>> TitleAlreadyExistsException() execution");
     }
-
-    // todo use TitleAlreadyExistsException lesson 88
 
 }

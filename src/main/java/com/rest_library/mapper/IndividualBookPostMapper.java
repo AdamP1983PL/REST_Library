@@ -1,6 +1,5 @@
 package com.rest_library.mapper;
 
-import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.entity.IndividualBook;
 import org.springframework.stereotype.Component;
