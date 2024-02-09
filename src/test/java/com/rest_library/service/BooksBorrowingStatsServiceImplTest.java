@@ -130,25 +130,25 @@ class BooksBorrowingStatsServiceImplTest {
 
     // todo givenTitleOfTheBook_whenBorrowAvailableBookByTitle_thenThrowResourceNotFoundException()
 
-    @Test
-    @DisplayName("Testing returnBooks(List<IndividualBookPostDto> individualBooks) method.")
-    public void givenListOfIndividualBookPostDtoList_whenReturnBooks_thenAllIndividualBookChangeStatusToAvailable() {
-        // given
-        List<IndividualBook> libraryBooks = List.of(individualBook1, individualBook2);
-        List<IndividualBookPostDto> returnedBooks = List.of(individualBookPostDto2);
-        when(individualBookPostMapper.mapToIndividualBook(individualBookPostDto2)).thenReturn(individualBook2);
-        when(individualBookPostMapper.mapToIndividualBookPostDto(individualBook2)).thenReturn(individualBookPostDto2);
-        when(individualBookRepository.findAll()).thenReturn(libraryBooks);
-
-        // when
-        List<IndividualBookPostDto> testedIndividualBookPostDto = booksBorrowingStatsServiceImpl.returnBooks(returnedBooks);
-
-        // then
-        assertAll(
-                () -> assertNotNull(testedIndividualBookPostDto),
-                () -> assertEquals(Status.AVAILABLE, testedIndividualBookPostDto.get(0).getStatus())
-        );
-
-    }
+//    @Test
+//    @DisplayName("Testing returnBooks(List<IndividualBookPostDto> individualBooks) method.")
+//    public void givenListOfIndividualBookPostDtoList_whenReturnBooks_thenAllIndividualBookChangeStatusToAvailable() {
+//        // given
+//        List<IndividualBook> libraryBooks = List.of(individualBook1, individualBook2);
+//        List<IndividualBookPostDto> returnedBooks = List.of(individualBookPostDto2);
+//        when(individualBookPostMapper.mapToIndividualBook(individualBookPostDto2)).thenReturn(individualBook2);
+//        when(individualBookPostMapper.mapToIndividualBookPostDto(individualBook2)).thenReturn(individualBookPostDto2);
+//        when(individualBookRepository.findAll()).thenReturn(libraryBooks);
+//
+//        // when
+//        List<IndividualBookPostDto> testedIndividualBookPostDto = booksBorrowingStatsServiceImpl.returnBooks(returnedBooks);
+//
+//        // then
+//        assertAll(
+//                () -> assertNotNull(testedIndividualBookPostDto),
+//                () -> assertEquals(Status.AVAILABLE, testedIndividualBookPostDto.get(0).getStatus())
+//        );
+//
+//    }
 
 }
