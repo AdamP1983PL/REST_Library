@@ -105,6 +105,5 @@ public class IndividualBookServiceImpl implements IndividualBookService {
         } else {
             throw new ResourceNotFoundException("Individual Book", "id", id);
         }
-
     }
 }

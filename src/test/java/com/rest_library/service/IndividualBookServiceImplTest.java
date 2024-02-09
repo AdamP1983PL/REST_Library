@@ -33,13 +33,11 @@ class IndividualBookServiceImplTest {
     private Title title1;
     private Title title2;
     private TitleDto titleDto1;
-    private TitleDto titleDto2;
     private IndividualBook individualBook1;
     private IndividualBook individualBook2;
     private IndividualBookDto individualBookDto1;
     private IndividualBookDto individualBookDto2;
     private IndividualBookPostDto individualBookPostDto1;
-    private IndividualBookPostDto individualBookPostDto2;
 
     @Mock
     private IndividualBookRepository individualBookRepository;
@@ -75,12 +73,6 @@ class IndividualBookServiceImplTest {
                 .author("test author")
                 .build();
 
-        titleDto2 = TitleDto.builder()
-                .id(1L)
-                .bookTitle("test book title2")
-                .author("test author2")
-                .build();
-
         individualBook1 = IndividualBook.builder()
                 .id(11L)
                 .title(title1)
@@ -108,12 +100,6 @@ class IndividualBookServiceImplTest {
         individualBookPostDto1 = IndividualBookPostDto.builder()
                 .id(11L)
                 .title(title1)
-                .status(Status.AVAILABLE)
-                .build();
-
-        individualBookPostDto2 = IndividualBookPostDto.builder()
-                .id(22L)
-                .title(title2)
                 .status(Status.AVAILABLE)
                 .build();
     }
@@ -194,45 +180,173 @@ class IndividualBookServiceImplTest {
         verify(individualBookMapper, never()).mapToIndividualBookDto(individualBook1);
     }
 
+    @Test
+    @DisplayName("Testing  findIndividualBooksByBookTitleAndStatus(TitleDto titleDto, Status status) method.")
+    public void givenIndividualBooksList_whenFindIndividualBookByTitleAndStatus_thenReturnOneObject() {
+        // given
+        when(individualBookMapper.mapToIndividualBookDto(individualBook1)).thenReturn(individualBookDto1);
+        when(individualBookRepository.findByTitleBookTitleAndStatus("test book title", Status.AVAILABLE))
+                .thenReturn(List.of(individualBook1));
 
+        // when
+        List<IndividualBookDto> testIndividualBookDtoList =
+                individualBookServiceImpl.findIndividualBooksByBookTitleAndStatus(titleDto1, Status.AVAILABLE);
 
+        // then
+        assertAll(
+                () -> assertNotNull(testIndividualBookDtoList),
+                () -> assertEquals(1, testIndividualBookDtoList.size()),
+                () -> assertEquals("test book title", testIndividualBookDtoList.get(0).getIndividualBookTitle())
+        );
+    }
+
+    @Test
+    @DisplayName("Testing findNumberOfIndividualBooksByBookTitleAndStatus(String bookTitle, Status status) method.")
+    public void givenIndividualBooksList_whenFindNumberOf_thenReturnOne() {
+        // given
+        individualBook2.setTitle(individualBook1.getTitle());
+        List<IndividualBook> individualBookList = List.of(individualBook1, individualBook2);
+        when(individualBookRepository.findByTitleBookTitleAndStatus("test book title", Status.AVAILABLE))
+                .thenReturn(individualBookList);
+
+        // when
+        Long numberOfBooks = individualBookServiceImpl
+                .findNumberOfIndividualBooksByBookTitleAndStatus("test book title", Status.AVAILABLE);
+
+        // then
+        assertAll(
+                () -> assertNotNull(numberOfBooks),
+                () -> assertEquals(2, numberOfBooks)
+        );
+    }
+
+    @Test
+    @DisplayName("Testing createIndividualBook(IndividualBookDto individualBookDto) method.")
+    public void givenIndividualBookDtoObject_whenCreateIndividualBook_thenSaveNewIndividualBookInTheDB() {
+        // given
+        IndividualBook savedIndividualBook = IndividualBook.builder()
+                .id(11L)
+                .title(title1)
+                .status(Status.AVAILABLE)
+                .build();
+
+        IndividualBookDto savedIndividualBookDto = IndividualBookDto.builder()
+                .id(11L)
+                .individualBookTitle(title1.getBookTitle())
+                .status(Status.AVAILABLE)
+                .build();
+
+        given(individualBookMapper.mapToIndividualBook(individualBookDto1)).willReturn(individualBook1);
+        given(individualBookRepository.save(individualBook1)).willReturn(savedIndividualBook);
+        given(individualBookMapper.mapToIndividualBookDto(savedIndividualBook)).willReturn(savedIndividualBookDto);
+
+        // when
+        IndividualBookDto testSavedIndividualBookDto = individualBookServiceImpl
+                .createIndividualBook(individualBookDto1);
+
+        // then
+        assertAll(
+                () -> assertNotNull(testSavedIndividualBookDto),
+                () -> assertEquals("test book title", savedIndividualBookDto.getIndividualBookTitle())
+        );
+        verify(individualBookRepository, times(1)).save(individualBook1);
+    }
+
+    @Test
+    @DisplayName("Testing createIndividualBook(IndividualBookPostDto individualBookPostDto) method.")
+    public void givenIndividualBookPostDtoObject_whenCreateIndividualBook_thenSaveNewIndividualBookInTheDB() {
+        // given
+        IndividualBook savedIndividualBook = IndividualBook.builder()
+                .id(11L)
+                .title(title1)
+                .status(Status.AVAILABLE)
+                .build();
+
+        IndividualBookPostDto savedIndividualBookPostDto = IndividualBookPostDto.builder()
+                .id(11L)
+                .title(title1)
+                .status(Status.AVAILABLE)
+                .build();
+
+        given(individualBookPostMapper.mapToIndividualBook(individualBookPostDto1))
+                .willReturn(individualBook1);
+        given(individualBookRepository.save(individualBook1)).willReturn(savedIndividualBook);
+        given(individualBookPostMapper.mapToIndividualBookPostDto(savedIndividualBook))
+                .willReturn(savedIndividualBookPostDto);
+
+        // when
+        IndividualBookPostDto savedIndividualPostDtoBook = individualBookServiceImpl
+                .createIndividualBook(individualBookPostDto1);
+
+        // then
+        assertAll(
+                () -> assertNotNull(savedIndividualPostDtoBook),
+                () -> assertEquals(individualBookPostDto1.getTitle(), savedIndividualBookPostDto.getTitle())
+        );
+        verify(individualBookRepository, times(1)).save(individualBook1);
+    }
+
+    @Test
+    @DisplayName("Testing updateStatus(IndividualBookDto individualBookDto, Long id) method.")
+    public void givenIndividualBookDto_whenUpdateStatus_thenReturnUpdatedStatus() {
+        // given
+        IndividualBook updatedIndividualBook = IndividualBook.builder()
+                .id(11L)
+                .title(title1)
+                .status(Status.IN_CIRCULATION)
+                .build();
+
+        IndividualBookDto updatedIndividualBookDto = IndividualBookDto.builder()
+                .id(11L)
+                .individualBookTitle(title1.getBookTitle())
+                .status(Status.IN_CIRCULATION)
+                .build();
+
+        given(individualBookRepository.findById(individualBook1.getId()))
+                .willReturn(Optional.ofNullable(individualBook1));
+        given(individualBookRepository.save(individualBook1)).willReturn(updatedIndividualBook);
+        given(individualBookMapper.mapToIndividualBookDto(updatedIndividualBook))
+                .willReturn(updatedIndividualBookDto);
+
+        // when
+        IndividualBookDto updatedTestIndividualBookDto =
+                individualBookServiceImpl.updateStatus(individualBookDto1, individualBook1.getId());
+
+        // then
+        assertAll(
+                () -> assertNotNull(updatedTestIndividualBookDto),
+                () -> assertEquals(Status.IN_CIRCULATION, updatedTestIndividualBookDto.getStatus())
+        );
+        verify(individualBookRepository, times(1)).save(individualBook1);
+    }
+
+    @Test
+    @DisplayName("Testing deleteIndividualBook(Long id) method - positive scenario (valid input).")
+    public void givenIndividualBookList_whenDeleteIndividualBook_thenReturnEmptyList() {
+        // given
+        given(individualBookRepository.findById(individualBook1.getId())).willReturn(Optional.of(individualBook1));
+
+        // when
+        individualBookServiceImpl.deleteIndividualBook(individualBook1.getId());
+
+        // then
+        verify(individualBookRepository, times(1)).findById(individualBook1.getId());
+        verify(individualBookRepository, times(1)).deleteById(individualBook1.getId());
+    }
+
+    @Test
+    @DisplayName("Testing deleteIndividualBook(Long id) method then throws ResourceNotFoundException.")
+    public void given_when_then() {
+        // given
+        Long id = 111L;
+        given(individualBookRepository.findById(id)).willReturn(Optional.empty());
+
+        // when, then
+        assertThrows(ResourceNotFoundException.class, () -> {
+            individualBookServiceImpl.deleteIndividualBook(id);
+        });
+        verify(individualBookRepository, times(1)).findById(id);
+        verify(individualBookRepository, never()).deleteById(anyLong());
+    }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
