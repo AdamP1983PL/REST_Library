@@ -7,7 +7,6 @@ import com.rest_library.entity.Reader;
 import com.rest_library.exceptions.ResourceNotFoundException;
 import com.rest_library.repository.IndividualBookRepository;
 import com.rest_library.repository.ReaderRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-@Slf4j
 public class BooksBorrowingStatsMapper {
 
     @Autowired

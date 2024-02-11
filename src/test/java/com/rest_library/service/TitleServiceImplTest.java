@@ -249,18 +249,23 @@ class TitleServiceImplTest {
     }
 
     @Test
-    @DisplayName("Testing findByBookTitle() method.")
-    public void given_when_then() {
-        // given todo write test
-
+    @DisplayName("Testing findByBookTitle() method - positive scenario (valid input).")
+    public void givenTitleObject_whenFindByBookTitle_thenReturnTitleDtoObject() {
+        // given
+        given(titleRepository.findByBookTitle(testTitle.getBookTitle()))
+                .willReturn(List.of(testTitle));
+        given(titleMapper.mapToTitleDto(testTitle)).willReturn(testTitleDto);
 
         // when
-
+        List<TitleDto> testTitleDtoList = titleServiceImpl.findByBookTitle("test title 1");
 
         // then
-
-
+        assertAll(
+                () -> assertNotNull(testTitleDtoList),
+                () -> assertFalse(testTitleDtoList.isEmpty()),
+                () -> assertEquals(1, testTitleDtoList.size()),
+                () -> assertEquals("test author 1", testTitleDtoList.get(0).getAuthor())
+        );
     }
 
 }
-

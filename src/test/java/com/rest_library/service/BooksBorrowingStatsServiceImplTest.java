@@ -1,10 +1,13 @@
 package com.rest_library.service;
 
+import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.dto.IndividualBookPostDto;
 import com.rest_library.dto.TitleDto;
 import com.rest_library.entity.IndividualBook;
 import com.rest_library.entity.Title;
 import com.rest_library.enums.Status;
+import com.rest_library.exceptions.ResourceNotFoundException;
+import com.rest_library.mapper.IndividualBookMapper;
 import com.rest_library.mapper.IndividualBookPostMapper;
 import com.rest_library.repository.IndividualBookRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +25,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BooksBorrowingStatsServiceImplTest {
@@ -33,6 +36,7 @@ class BooksBorrowingStatsServiceImplTest {
     private TitleDto testTitleDto2;
     private IndividualBook individualBook1;
     private IndividualBook individualBook2;
+    private IndividualBookDto individualBookDto1;
     private IndividualBookPostDto individualBookPostDto1;
     private IndividualBookPostDto individualBookPostDto2;
 
@@ -78,6 +82,12 @@ class BooksBorrowingStatsServiceImplTest {
                 .status(Status.AVAILABLE)
                 .build();
 
+        individualBookDto1 = IndividualBookDto.builder()
+                .id(1L)
+                .individualBookTitle(testTitle.getBookTitle())
+                .status(Status.IN_CIRCULATION)
+                .build();
+
         individualBookPostDto1 = IndividualBookPostDto.builder()
                 .id(1L)
                 .title(testTitle)
@@ -98,6 +108,9 @@ class BooksBorrowingStatsServiceImplTest {
 
     @Mock
     private IndividualBookRepository individualBookRepository;
+
+    @Mock
+    private IndividualBookMapper individualBookMapper;
 
     @Mock
     private IndividualBookPostMapper individualBookPostMapper;
@@ -128,27 +141,50 @@ class BooksBorrowingStatsServiceImplTest {
         );
     }
 
-    // todo givenTitleOfTheBook_whenBorrowAvailableBookByTitle_thenThrowResourceNotFoundException()
+    @Test
+    @DisplayName("Testing borrowAvailableBookByTitle() method that throws ResourceNotFoundException.")
+    public void givenTitleOfTheBook_whenBorrowAvailableBookByTitle_thenThrowResourceNotFoundException() {
+        // given
+        String nonExistingTitle = "xxx";
+        given(individualBookRepository.findFirstByTitleBookTitleAndStatus(nonExistingTitle, Status.AVAILABLE))
+                .willReturn(Optional.empty());
 
-//    @Test
-//    @DisplayName("Testing returnBooks(List<IndividualBookPostDto> individualBooks) method.")
-//    public void givenListOfIndividualBookPostDtoList_whenReturnBooks_thenAllIndividualBookChangeStatusToAvailable() {
-//        // given
-//        List<IndividualBook> libraryBooks = List.of(individualBook1, individualBook2);
-//        List<IndividualBookPostDto> returnedBooks = List.of(individualBookPostDto2);
-//        when(individualBookPostMapper.mapToIndividualBook(individualBookPostDto2)).thenReturn(individualBook2);
-//        when(individualBookPostMapper.mapToIndividualBookPostDto(individualBook2)).thenReturn(individualBookPostDto2);
-//        when(individualBookRepository.findAll()).thenReturn(libraryBooks);
-//
-//        // when
-//        List<IndividualBookPostDto> testedIndividualBookPostDto = booksBorrowingStatsServiceImpl.returnBooks(returnedBooks);
-//
-//        // then
-//        assertAll(
-//                () -> assertNotNull(testedIndividualBookPostDto),
-//                () -> assertEquals(Status.AVAILABLE, testedIndividualBookPostDto.get(0).getStatus())
-//        );
-//
-//    }
+        // when, then
+        assertThrows(ResourceNotFoundException.class, () -> {
+            booksBorrowingStatsServiceImpl.borrowAvailableBookByTitle(nonExistingTitle);
+        });
+        verify(individualBookRepository, times(1)).findFirstByTitleBookTitleAndStatus(nonExistingTitle, Status.AVAILABLE);
+    }
+
+    @Test
+    @DisplayName("Testing returnBooks(List<IndividualBookPostDto> individualBooks) method.")
+    public void givenListOfIndividualBookPostDtoList_whenReturnBooks_thenAllIndividualBookChangeStatusToAvailable() {
+        // given
+        IndividualBookDto returnedBookDto = IndividualBookDto.builder()
+                .id(1L)
+                .individualBookTitle(testTitle.getBookTitle())
+                .status(Status.AVAILABLE)
+                .build();
+
+        IndividualBook returnedBook = IndividualBook.builder()
+                .id(1L)
+                .title(testTitle)
+                .status(Status.AVAILABLE)
+                .build();
+
+        when(individualBookMapper.mapToIndividualBook(individualBookDto1)).thenReturn(individualBook1);
+        when(individualBookMapper.mapToIndividualBookDto(individualBook1)).thenReturn(returnedBookDto);
+        when(individualBookRepository.save(individualBook1)).thenReturn(returnedBook);
+        when(individualBookRepository.save(individualBook1)).thenReturn(returnedBook);
+
+        // when
+        IndividualBookDto returnedIndividualBookDto = booksBorrowingStatsServiceImpl.returnABook(individualBookDto1);
+
+        // then
+        assertAll(
+                () -> assertNotNull(returnedIndividualBookDto),
+                () -> assertEquals(Status.AVAILABLE, returnedIndividualBookDto.getStatus())
+        );
+    }
 
 }

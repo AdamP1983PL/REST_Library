@@ -4,12 +4,15 @@ import com.rest_library.dto.IndividualBookDto;
 import com.rest_library.entity.IndividualBook;
 import com.rest_library.entity.Title;
 import com.rest_library.enums.Status;
+import com.rest_library.exceptions.ResourceNotFoundException;
 import com.rest_library.repository.TitleRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -110,6 +113,18 @@ class IndividualBookMapperTest {
         // then
         assertNotNull(actualTitle);
         assertEquals("Test title", actualTitle.getBookTitle());
+    }
+
+    @Test
+    @DisplayName("Testing mapIndividualBookTitleToTitleObject() method that throws Exception.")
+    public void givenNonExistingBookTitle_whenMapIndividualBookTitleToTitle_thenThrowException() {
+        // given
+        String nonExistingTitle = "xxx";
+
+        // when, then
+        assertThrows(ResourceNotFoundException.class, () -> {
+            individualBookMapper.mapIndividualBookTitleToTitle(nonExistingTitle);
+        });
     }
 
 }

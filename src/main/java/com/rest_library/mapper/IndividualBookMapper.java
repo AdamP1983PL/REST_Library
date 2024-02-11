@@ -8,6 +8,8 @@ import com.rest_library.repository.TitleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class IndividualBookMapper {
 
@@ -37,12 +39,21 @@ public class IndividualBookMapper {
                 .build();
     }
 
+//    public Title mapIndividualBookTitleToTitle(String individualBookTitle) {
+//        Title tempTitleObject = titleRepository.findByBookTitle(individualBookTitle).get(0);
+//        if (tempTitleObject != null) {
+//            return tempTitleObject;
+//        } else {
+//            throw new ResourceNotFoundException("Resource not found for title: " + individualBookTitle);
+//        }
+//    }
+
     public Title mapIndividualBookTitleToTitle(String individualBookTitle) {
-        Title tempTitleObject = titleRepository.findByBookTitle(individualBookTitle).get(0);
-        if (tempTitleObject != null) {
-            return tempTitleObject;
+        List<Title> titles = titleRepository.findByBookTitle(individualBookTitle);
+        if (!titles.isEmpty()) {
+            return titles.get(0);
         } else {
-            throw new ResourceNotFoundException("Resource not fount for title: " + individualBookTitle);
+            throw new ResourceNotFoundException("Resource not found for title: " + individualBookTitle);
         }
     }
 

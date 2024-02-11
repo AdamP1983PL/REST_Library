@@ -1,13 +1,14 @@
 package com.rest_library.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rest_library.dto.ReaderDto;
 import com.rest_library.entity.Reader;
-import com.rest_library.mapper.ReaderMapper;
 import com.rest_library.service.ReaderServiceImpl;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,10 +24,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 
 
@@ -50,11 +52,10 @@ import static org.mockito.Mockito.when;
 
 @SpringJUnitWebConfig
 @WebMvcTest(ReaderController.class)
-class ReaderControllerTest {
+public class ReaderControllerTest {
 
     private Reader testReader;
     private ReaderDto testReaderDto;
-    private Reader testReader2;
     private ReaderDto testReaderDto2;
 
     @Autowired
@@ -62,12 +63,6 @@ class ReaderControllerTest {
 
     @MockBean
     private ReaderServiceImpl readerService;
-
-    @MockBean
-    private ReaderMapper readerMapper;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @BeforeEach
     void initialize() {
@@ -85,14 +80,6 @@ class ReaderControllerTest {
                 .firstName("test first name")
                 .lastName("test last name")
                 .startingDate(LocalDate.of(1111, 1, 1))
-                .build();
-
-        testReader2 = Reader.builder()
-                .id(2L)
-                .email("test2@test.com")
-                .firstName("test first name2")
-                .lastName("test last name2")
-                .startingDate(LocalDate.of(2222, 2, 2))
                 .build();
 
         testReaderDto2 = ReaderDto.builder()
@@ -114,9 +101,7 @@ class ReaderControllerTest {
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-
         String jsonContent = gson.toJson(testReaderDto);
-        System.out.println("\n\n\tjsonContent ====>>>>" + jsonContent + "\n\n");
 
         // when, then
         mockMvc
@@ -127,16 +112,11 @@ class ReaderControllerTest {
                         .content(jsonContent))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id",
-                        Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email",
-                        Matchers.is("test@test.com")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName",
-                        Matchers.is("test first name")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName",
-                        Matchers.is("test last name")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.startingDate",
-                        Matchers.is("1111-01-01")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("test@test.com")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", Matchers.is("test first name")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.is("test last name")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.startingDate", Matchers.is("1111-01-01")));
     }
 
     @Test
@@ -158,17 +138,59 @@ class ReaderControllerTest {
     @DisplayName("Testing findAllReaders() method.")
     public void givenListOfReaders_whenFindAllReaders_thenReturnReadersList() throws Exception {
         // given
-        List<ReaderDto> readersDto = new ArrayList<>(List.of(testReaderDto, testReaderDto2));
-        when(readerService.findAllReaders()).thenReturn(readersDto);
+        when(readerService.findAllReaders()).thenReturn(List.of(testReaderDto, testReaderDto2));
 
         // when, then
-        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/readers/")
+        mockMvc
+                .perform(MockMvcRequestBuilders.get("/api/v1/readers/")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].email", Matchers.is("test@test.com")));
+    }
 
-        System.out.println("\n\n\t====>>>> response: " + response + "\n\n");
+    @Test
+    @DisplayName("Testing findReaderById(@PathVariable(id) Long id) method.")
+    public void givenReadersDtoId_whenFindReaderById_thenReturnReaderDtoObject() throws Exception {
+        // given
+        when(readerService.findReader(testReaderDto.getId())).thenReturn(testReaderDto);
+
+        // when, then
+        ResultActions response = mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/api/v1/readers/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("test@test.com")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName", Matchers.is("test first name")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName", Matchers.is("test last name")));
+//                .andExpect(MockMvcResultMatchers
+//                        .jsonPath("$.startingDate", Matchers.is(LocalDate.of(1111, 01, 01))));
+
+        String dateString = response.andReturn().getResponse().getContentAsString();
+        JsonNode jsonNode = new ObjectMapper().readTree(dateString);
+        String actualDateString = jsonNode.get("startingDate").asText();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate actualDate = LocalDate.parse(actualDateString, formatter);
+
+        Assertions.assertEquals(actualDate, LocalDate.of(1111, 1, 1));
+    }
+
+    @Test
+    @DisplayName("Testing deleteReader(@PathVariable(id) Long id) method. ")
+    public void givenReaderObject_whenDeleteReader_thenReaderDeleted() throws Exception {
+        // given
+        Long id = testReader.getId();
+        willDoNothing().given(readerService).deleteReader(id);
+
+        // when, then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete("/api/v1/readers/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
     }
 
 }
