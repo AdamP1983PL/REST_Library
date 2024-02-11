@@ -2,7 +2,6 @@ package com.rest_library.controller;
 
 import com.google.gson.Gson;
 import com.rest_library.dto.TitleDto;
-import com.rest_library.entity.Title;
 import com.rest_library.service.TitleServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
