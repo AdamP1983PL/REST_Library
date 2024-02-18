@@ -57,7 +57,6 @@ class BooksBorrowingStatsControllerTest {
                 .individualBookTitle(testTitle1.getBookTitle())
                 .status(Status.AVAILABLE)
                 .build();
-
     }
 
     @Test

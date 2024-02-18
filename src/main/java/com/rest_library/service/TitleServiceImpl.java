@@ -57,11 +57,11 @@ public class TitleServiceImpl implements TitleService {
                 .map(title -> {
                     title.setBookTitle(titleDto.getBookTitle());
                     title.setAuthor(titleDto.getAuthor());
-                    log.info("====>>>> updateTitle() execution");
                     return titleRepository.save(title);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Title", "id", id));
 
+        log.info("====>>>> updateTitle() execution");
         return titleMapper.mapToTitleDto(updatedTitle);
     }
 
